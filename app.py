@@ -19,9 +19,9 @@ st.set_page_config(
 @st.cache_resource
 def get_model():
 	"""Load the trained model once and reuse it between Streamlit reruns."""
-	from tensorflow.keras.models import load_model
+	from keras.models import load_model
 
-	return load_model(MODEL_PATH)
+	return load_model(MODEL_PATH, compile=False)
 
 
 def predict(image: Image.Image) -> tuple[str, float]:
