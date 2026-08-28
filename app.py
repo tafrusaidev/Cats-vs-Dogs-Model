@@ -20,8 +20,16 @@ st.set_page_config(
 def get_model():
 	"""Load the trained model once and reuse it between Streamlit reruns."""
 	from keras.models import load_model
+	from keras.layers import Dense
 
-	return load_model(MODEL_PATH, compile=False)
+	# Workaround for quantization_config error when loading models saved in older/newer Keras versions
+	class SafeDense(Dense):
+		@classmethod
+		def from_config(cls, config):
+			config.pop('quantization_config', None)
+			return super().from_config(config)
+
+	return load_model(MODEL_PATH, compile=False, custom_objects={'Dense': SafeDense})
 
 
 def predict(image: Image.Image) -> tuple[str, float]:
