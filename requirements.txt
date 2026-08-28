@@ -1,5 +1,5 @@
 tensorflow
-keras>=3.0.0, <3.13.0
+keras
 opencv-python-headless
 numpy
 matplotlib
